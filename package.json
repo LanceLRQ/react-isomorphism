@@ -1,0 +1,58 @@
+{
+  "name": "react-isomorphism",
+  "version": "1.0.0",
+  "description": "An isomorphism project based on React.",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LanceLRQ/react-isomorphism.git"
+  },
+  "keywords": [
+    "react",
+    "webpack"
+  ],
+  "author": "LanceLRQ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LanceLRQ/react-isomorphism/issues"
+  },
+  "homepage": "https://github.com/LanceLRQ/react-isomorphism#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.4",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-decorators": "^7.10.5",
+    "@babel/plugin-transform-runtime": "^7.11.0",
+    "@babel/polyfill": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/preset-stage-0": "^7.8.3",
+    "autoprefixer": "^9.8.6",
+    "babel-loader": "^8.1.0",
+    "copy-webpack-plugin": "^6.0.3",
+    "css-loader": "^4.2.2",
+    "file-loader": "^6.0.0",
+    "happypack": "^5.0.1",
+    "hard-source-webpack-plugin": "^0.13.1",
+    "less-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^0.10.0",
+    "postcss-loader": "^3.0.0",
+    "react-hot-loader": "^4.12.21",
+    "sass-loader": "^10.0.0",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-merge": "^5.1.2"
+  },
+  "dependencies": {
+    "lodash": "^4.17.20",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.1"
+  }
+}
