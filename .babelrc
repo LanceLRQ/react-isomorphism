@@ -1,12 +1,12 @@
 {
-  "presets": [["env", {
+  "presets": [["@babel/env", {
       "modules": "commonjs"
     }],
-    "preset-react"
+    "@babel/react"
   ],
   "plugins": [
     "@babel/plugin-transform-runtime",
-    "@babel/plugin-proposal-decorators",
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
     "@babel/plugin-proposal-class-properties",
     "@babel/transform-arrow-functions"
   ]

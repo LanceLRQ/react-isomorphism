@@ -1,6 +1,6 @@
 import path from 'path';
 
-const root = path.resolve(__dirname, '../');
+const root = path.resolve(__dirname, '../../');
 
 export const ROOT = {
   SRC: {
@@ -9,9 +9,9 @@ export const ROOT = {
     STYLES: path.join(root, 'src/styles'),
     STATIC: path.join(root, 'src/static'),
     IMAGES: path.join(root, 'src/images'),
-    SVG: path.join(root, 'src/svgs'),
-    LOCALES: path.join(root, 'src/locales'),
-    PLUGINS: path.join(root, 'src/plugins'),
+    // SVG: path.join(root, 'src/svgs'),
+    // LOCALES: path.join(root, 'src/locales'),
+    // PLUGINS: path.join(root, 'src/plugins'),
   },
   DIST: {
     SELF: path.join(root, 'dist'),

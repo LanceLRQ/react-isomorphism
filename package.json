@@ -4,8 +4,8 @@
   "description": "An isomorphism project based on React.",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --config webpack.config.js",
-    "build": "webpack --config webpack.config.js",
+    "start": "node --max_old_space_size=3072 node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base dist --config webpack.config.dev.babel.js",
+    "build": "webpack --config webpack.config.dev.babel.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,6 +15,16 @@
   "keywords": [
     "react",
     "webpack"
+  ],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 11",
+    "not IE 11",
+    "not IE_Mob 11",
+    "chrome >= 43",
+    "safari >= 7",
+    "firefox >= 48"
   ],
   "author": "LanceLRQ",
   "license": "MIT",
@@ -32,22 +42,33 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-stage-0": "^7.8.3",
+    "@babel/register": "^7.10.5",
+    "@hot-loader/react-dom": "^16.13.0",
     "autoprefixer": "^9.8.6",
     "babel-loader": "^8.1.0",
+    "babel-plugin-lodash": "^3.3.4",
     "copy-webpack-plugin": "^6.0.3",
     "css-loader": "^4.2.2",
+    "fibers": "^5.0.0",
     "file-loader": "^6.0.0",
+    "friendly-errors-webpack-plugin": "^1.7.0",
     "happypack": "^5.0.1",
     "hard-source-webpack-plugin": "^0.13.1",
+    "html-webpack-plugin": "^4.3.0",
     "less-loader": "^6.2.0",
     "mini-css-extract-plugin": "^0.10.0",
     "postcss-loader": "^3.0.0",
     "react-hot-loader": "^4.12.21",
-    "sass-loader": "^10.0.0",
+    "sass": "^1.26.10",
+    "sass-loader": "^10.0.1",
     "style-loader": "^1.2.1",
+    "thread-loader": "^2.1.3",
     "webpack": "^4.44.1",
+    "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.12",
-    "webpack-merge": "^5.1.2"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.1.2",
+    "webpackbar": "^4.0.0"
   },
   "dependencies": {
     "lodash": "^4.17.20",

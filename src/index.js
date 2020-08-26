@@ -1,9 +1,5 @@
-import _ from 'lodash';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { IndexApp } from './scripts/app';
 
-function render() {
-  var el = document.createElement('div');
-  el.innerText = _.join(['hello', 'webpack'], ' ');
-  return el;
-}
-
-document.body.appendChild(render());
+ReactDOM.render(<IndexApp/>, document.getElementById('root'));

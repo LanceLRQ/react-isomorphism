@@ -3,6 +3,7 @@ import { buildEntries } from './utils';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
+import {ROOT} from './paths';
 
 /**
  * 构建Webpack的基本配置
@@ -11,7 +12,6 @@ import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
  * @param groups  自定义SplitChunks插件的 cacheGroups
  * @param entries: [{name: '', plugins: ['@babel/polyfill'] }]
  *        name必填，参数plugins可以省略
- * @returns {{mode: string, entry: {index: *[]}}}
  */
 export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true) => {
   // 处理入口定义
@@ -29,11 +29,21 @@ export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true
     resolve: {
       // 目录别名
       alias: {
-        '@': path.resolve('src'),
+        '@': ROOT.SRC.SELF,
       },
       // 配置可以省略的后缀：如 import './index.js' 可以写成 './index'
       extensions: ['.js', '.jsx', '.ts', '.scss', '.less'],
     },
+    // 输出文件
+    output:{
+      path: ROOT.DIST.BUILD,
+      filename: '[name].[hash].bundle.js',
+      chunkFilename: '[name].[hash].chunk.js'
+    },
+    // 并行数
+    parallelism: 5,
+    // 统计信息
+    stats: 'verbose',
     // 构建优化设置
     optimization: {
       // 默认禁用压缩，如果生产环境需要，可以再次打开
@@ -78,12 +88,11 @@ export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true
             chunks: 'all',
             test: /[\\/]node_modules[\\/]/,
             priority: -10,
-
           },
           // 把项目里的css都搞到一个文件里
           styles: {
             name: 'styles',
-            chunks: 'initial',
+            chunks: 'all',
             test: /\.css$/,
             // 忽略掉minChunks、maxAsyncRequests、maxInitialRequests等
             enforce: true,
@@ -98,10 +107,12 @@ export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true
         filename: "[name].[hash].css",
         chunkFilename: "[name].[hash].css"
       }),
-      // 静态文件复制插件
-      new CopyWebpackPlugin([
-        // { from: 'src/static', to: 'static' },
-      ]),
+      // 静态文件复制插件 (似乎有问题，有需要再解决）
+      new CopyWebpackPlugin({
+        patterns: [
+          { from: ROOT.SRC.STATIC, to: 'static' },
+        ]
+      }),
       // 打包优化插件
       new HardSourceWebpackPlugin(),
       ...(plugins)

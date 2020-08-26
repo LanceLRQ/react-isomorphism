@@ -28,7 +28,7 @@ export const buildLodaers = (dev = true) => {
     options: {
       plugins: babelPlugins,
       presets: [
-        ['env', {
+        ['@babel/env', {
           "modules": false,
           "targets": {
             "browsers": [
@@ -39,7 +39,7 @@ export const buildLodaers = (dev = true) => {
             ]
           }
         }],
-        ['react']
+        ['@babel/react']
       ],
     },
   }], 2);
@@ -52,13 +52,6 @@ export const buildLodaers = (dev = true) => {
     },
   }], 2);
 
-  const SASS_LOADER = builder.registerHappyPackLoader('sass@10', [{
-    loader: 'sass-loader',
-    options: {
-      // sourceMap: true,
-      // data: "@import '@/styles/themes/index.scss';",
-    },
-  }], 2);
 
   // Babel Loader
   builder.registerLoader({
@@ -102,11 +95,18 @@ export const buildLodaers = (dev = true) => {
     ],
   });
 
-  // Sass Loader
+  // Sass Loader 10.x (用官方推荐的dart-sass，node-sass要编译，日常下载失败，很麻烦)
+  // 注意，不要在新版的sass-loader里用HappyPack，出错到你怀疑人生
+  // 加了MiniCssExtractPlugin以后也不要用thread-loader
   builder.registerLoader({
     test: /\.(scss|sass|css)$/,
     use: [
-      MiniCssExtractPlugin.loader,
+      {
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+          hmr: dev, // 仅dev环境启用HMR功能
+        },
+      },
       'css-loader',
       {
         loader: 'postcss-loader',
@@ -114,14 +114,23 @@ export const buildLodaers = (dev = true) => {
           plugins() {
             return [
               AutoPrefixer({
-                browsers: ['chrome >= 43', 'safari >= 7', 'firefox >= 48'],
                 cascade: false,
               })
             ];
           },
         },
       },
-      builder.getHappyPackLoaderName(SASS_LOADER)
+      {
+        loader: 'sass-loader',
+        options: {
+          implementation: require('sass'),
+          sassOptions: {
+            fiber: require('fibers'),
+          },
+          // sourceMap: true,
+          // data: "@import '@/styles/themes/index.scss';",
+        },
+      }
     ],
   });
 
