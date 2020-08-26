@@ -1,5 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { IndexApp } from './scripts/app';
+import { Startup } from './scripts/index';
 
-ReactDOM.render(<IndexApp/>, document.getElementById('root'));
+Startup();

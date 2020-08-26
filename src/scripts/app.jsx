@@ -9,5 +9,5 @@ export const IndexApp = () => {
       Congratulation, Your ReactJS application is Running.
     </span>
     <TsApp />
-  </div>
+  </div>;
 };
