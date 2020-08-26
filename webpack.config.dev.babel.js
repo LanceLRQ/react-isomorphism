@@ -9,12 +9,12 @@ module.exports = require('./public/webpack/development.js').buildDevelopmentWebp
     analyzerPort: 8848,
     openAnalyzer: false,
   }),
-  // new FriendlyErrorsWebpackPlugin({
-  //   compilationSuccessInfo: {
-  //     messages: ['Your application is running here: http://localhost:3000'],
-  //   },
-  //   clearConsole: false,
-  // }),
+  new FriendlyErrorsWebpackPlugin({
+    compilationSuccessInfo: {
+      messages: ['Your application is running here: http://localhost:3000'],
+    },
+    clearConsole: false,
+  }),
   new WebpackBar({
     profile: false,
     // color: '',

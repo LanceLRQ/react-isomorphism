@@ -4,6 +4,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
 import {ROOT} from './paths';
+import webpack from 'webpack';
 
 /**
  * 构建Webpack的基本配置
@@ -16,7 +17,15 @@ import {ROOT} from './paths';
 export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true) => {
   // 处理入口定义
   const entry = {};
-  entries.forEach((item) => {
+  // 默认定义这个入口
+  [{
+    name: 'index',
+    path: './src/index.js',
+    plugin: [
+      'react-hot-loader/patch',
+      '@babel/polyfill',
+    ],
+  }, ...entries].forEach((item) => {
     if (!item.name) throw new Error('entry config error');
     entry[item.name] = buildEntries(item.path, item.plugins);
   });
@@ -46,6 +55,7 @@ export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true
     stats: 'verbose',
     // 构建优化设置
     optimization: {
+      namedModules: dev,
       // 默认禁用压缩，如果生产环境需要，可以再次打开
       minimize: false,
       // Webpack的运行时文件名称
@@ -102,6 +112,15 @@ export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true
     },
     // 插件：这里将默认启用一些重要插件，其他附加插件可以调用函数时传入
     plugins: [
+      new webpack.DefinePlugin({
+        'process.env': {
+          'BUILD_ENV': JSON.stringify({
+            version: process.env['BRANCH_NAME'],
+            commit: process.env['GIT_COMMIT'],
+            build: process.env['BUILD'],
+          }),
+        }
+      }),
       // 将CSS提取成独立文件。不使用这个插件时，CSS将被打包到代码里，在运行时释放。
       new MiniCssExtractPlugin({
         filename: "[name].[hash].css",

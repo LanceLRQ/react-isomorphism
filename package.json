@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node --max_old_space_size=3072 node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base dist --config webpack.config.dev.babel.js",
-    "build": "webpack --config webpack.config.dev.babel.js",
+    "build": "node --max-old-space-size=3072 node_modules/webpack/bin/webpack.js --mode production --progress --profile --colors --config webpack.config.prod.babel.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -44,6 +44,7 @@
     "@babel/preset-stage-0": "^7.8.3",
     "@babel/register": "^7.10.5",
     "@hot-loader/react-dom": "^16.13.0",
+    "assets-webpack-plugin": "^5.1.1",
     "autoprefixer": "^9.8.6",
     "babel-loader": "^8.1.0",
     "babel-plugin-lodash": "^3.3.4",
@@ -57,6 +58,7 @@
     "html-webpack-plugin": "^4.3.0",
     "less-loader": "^6.2.0",
     "mini-css-extract-plugin": "^0.10.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "react-hot-loader": "^4.12.21",
     "sass": "^1.26.10",

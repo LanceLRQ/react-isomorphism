@@ -1,3 +1,8 @@
+/**
+ * Webpack Dev Server 配置构建
+ * @param host
+ * @param port
+ */
 export const buildWebpackDevServer = (host='0.0.0.0', port=3000) => {
   return {
     devServer: {

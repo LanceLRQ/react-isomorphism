@@ -3,32 +3,33 @@ import merge from 'webpack-merge';
 import { buildWebpackBaseConfig } from './common';
 import { buildLodaers } from './loader';
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
 import { ROOT } from './paths';
 import { buildWebpackDevServer } from './dev_server';
 import { WebsiteBaseInfo } from './constant';
+import AssetsPlugin from 'assets-webpack-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
 
 export const buildDevelopmentWebpackConfiguration = (morePlugins = []) => {
   const plugins = [
-    // new webpack.NamedModulesPlugin(),  // config.optimization.namedModules
-    new webpack.HotModuleReplacementPlugin(),
-    new HardSourceWebpackPlugin.ExcludeModulePlugin([{
-      // HardSource works with mini-css-extract-plugin but due to how
-      // mini-css emits assets, assets are not emitted on repeated builds with
-      // mini-css and hard-source together. Ignoring the mini-css loader
-      // modules, but not the other css loader modules, excludes the modules
-      // that mini-css needs rebuilt to output assets every time.
-      test: /mini-css-extract-plugin[\\/]dist[\\/]loader/,
-    }]),
+    new AssetsPlugin({
+      path: ROOT.DIST.BUILD,
+    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       favicon: '',
-      hash: true,
+      hash: false,
       inject: false,                    // 不自动注入文件，需要在模板里设定对应输出
       template: ROOT.DIST.INDEX_HTML,
+      minify: {                         // 压缩HTML文件
+        removeComments: true,           // 移除HTML中的注释
+        collapseWhitespace: true,       // 删除空白符与换行符
+        minifyCSS: true,                // 压缩css
+        minifyJS: true,                 // 压缩js
+      },
       website: WebsiteBaseInfo,
     }),
+    new OptimizeCSSAssetsPlugin(),
     ...morePlugins,
   ];
   return merge(
@@ -36,13 +37,18 @@ export const buildDevelopmentWebpackConfiguration = (morePlugins = []) => {
     buildLodaers(),
     buildWebpackDevServer('0.0.0.0', 3000),
     {
+      mode: "production",
       // 用eval-source-map时，启动时慢一些，热更新时很快，浏览器里可以看到原本的代码。（发布到生产时不可以用这个！）
-      devtool: 'eval-source-map',
+      devtool: 'source-map',
       // 根据React的要求，开发环境要将react-dom重定向到@hot-loader/react-dom
       resolve: {
         alias: {
           'react-dom': '@hot-loader/react-dom'
         },
+      },
+      stats: "normal",
+      optimization: {
+        minimize: true,
       },
     }
   )
