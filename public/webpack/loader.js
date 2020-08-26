@@ -65,7 +65,7 @@ export const buildLodaers = (dev = true) => {
     test: /\.tsx?$/,
     exclude: /node_modules/,
     use: ['ts-loader']
-  }, true);
+  });
 
 
   // Static File Loader

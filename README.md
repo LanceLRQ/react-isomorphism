@@ -3,8 +3,7 @@ An isomorphism project based on React.
 
 ---
 
-##Run
-
+## Run
 
 `npm install` to Install all dependencies
 
@@ -12,3 +11,8 @@ An isomorphism project based on React.
 
 `npm build` to run webpack build.
 
+## TypeScript
+
+`@types/react`、`@types/react-dom` had been installed.
+
+You can install `@types/react-router-dom`、 `@types/react-redux`.
