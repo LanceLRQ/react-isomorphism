@@ -33,9 +33,8 @@ export const buildDevelopmentWebpackConfiguration = (morePlugins = []) => {
     ...morePlugins,
   ];
   return merge(
-    buildWebpackBaseConfig([], plugins, {}, true),
+    buildWebpackBaseConfig([], plugins, {}, false),
     buildLodaers(),
-    buildWebpackDevServer('0.0.0.0', 3000),
     {
       mode: "production",
       // 用eval-source-map时，启动时慢一些，热更新时很快，浏览器里可以看到原本的代码。（发布到生产时不可以用这个！）
