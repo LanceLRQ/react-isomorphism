@@ -1,16 +1,14 @@
-import webpack from 'webpack';
 import merge from 'webpack-merge';
 import { buildWebpackBaseConfig } from './common';
 import { buildLodaers } from './loader';
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { ROOT } from './paths';
-import { buildWebpackDevServer } from './dev_server';
 import { WebsiteBaseInfo } from './constant';
 import AssetsPlugin from 'assets-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
 
-export const buildDevelopmentWebpackConfiguration = (morePlugins = []) => {
+export const buildProductionWebpackConfiguration = (morePlugins = []) => {
   const plugins = [
     new AssetsPlugin({
       path: ROOT.DIST.BUILD,
