@@ -1,6 +1,7 @@
 import path from 'path';
 
-const root = path.resolve(__dirname, '../../');
+const root = path.resolve(__dirname, '../');
+const publicRoot = __dirname;
 
 export const ROOT = {
   SRC: {
@@ -16,7 +17,13 @@ export const ROOT = {
   DIST: {
     SELF: path.join(root, 'dist'),
     BUILD: path.join(root, 'dist/build'),
+    SERVER: path.join(root, 'dist/server'),
     INDEX_HTML: path.join(root, 'dist/index.html'),
+  },
+  PUBLIC: {
+    SELF: publicRoot,
+    WEBPACK: path.join(publicRoot, 'webpack'),
+    SERVER: path.join(publicRoot, 'server'),
   }
 };
 

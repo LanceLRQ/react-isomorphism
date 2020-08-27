@@ -1,9 +1,8 @@
-import path from 'path';
 import { buildEntries } from './utils';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
-import {ROOT} from './paths';
+import { ROOT } from '../paths';
 import webpack from 'webpack';
 
 /**
@@ -11,24 +10,47 @@ import webpack from 'webpack';
  * @param dev     构建模式
  * @param plugins Webpack自定义插件列表
  * @param groups  自定义SplitChunks插件的 cacheGroups
+ * @param ssr     SSR模式
  * @param entries: [{name: '', plugins: ['@babel/polyfill'] }]
  *        name必填，参数plugins可以省略
  */
-export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true) => {
+export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true, ssr = false) => {
   // 处理入口定义
   const entry = {};
   // 默认定义这个入口
-  [{
-    name: 'index',
-    path: './src/index.js',
-    plugin: [
-      'react-hot-loader/patch',
-      '@babel/polyfill',
-    ],
-  }, ...entries].forEach((item) => {
+  entries.forEach((item) => {
     if (!item.name) throw new Error('entry config error');
     entry[item.name] = buildEntries(item.path, item.plugins);
   });
+  let pluginsList = [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'BUILD_ENV': JSON.stringify({
+          version: process.env['BRANCH_NAME'],
+          commit: process.env['GIT_COMMIT'],
+          build: process.env['BUILD'],
+        }),
+      }
+    }),
+  ];
+  if (!ssr) {
+    pluginsList = pluginsList.concat([
+      // 将CSS提取成独立文件。不使用这个插件时，CSS将被打包到代码里，在运行时释放。
+      new MiniCssExtractPlugin({
+        filename: "[name].[hash].css",
+        chunkFilename: "[name].[hash].css"
+      }),
+      // 静态文件复制插件 (似乎有问题，有需要再解决）
+      new CopyWebpackPlugin({
+        patterns: [
+          {from: ROOT.SRC.STATIC, to: 'static'},
+        ]
+      }),
+      // 打包优化插件
+      new HardSourceWebpackPlugin(),
+    ]);
+  }
+  pluginsList = pluginsList.concat(plugins);
   return {
     // 构建模式，支持开发模式和生产模式
     mode: dev ? 'development' : 'production',
@@ -44,7 +66,10 @@ export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true
       extensions: ['.js', '.jsx', '.ts', '.scss', '.less'],
     },
     // 输出文件
-    output:{
+    output: ssr ? {
+      path: ROOT.DIST.SERVER,
+      filename: 'index.js',
+    } : {
       path: ROOT.DIST.BUILD,
       filename: '[name].[hash].bundle.js',
       chunkFilename: '[name].[hash].chunk.js'
@@ -54,7 +79,9 @@ export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true
     // 统计信息
     stats: 'verbose',
     // 构建优化设置
-    optimization: {
+    optimization: ssr ? {
+      minimize: false
+    } : {
       namedModules: dev,
       // 默认禁用压缩，如果生产环境需要，可以再次打开
       minimize: false,
@@ -111,30 +138,6 @@ export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true
       }
     },
     // 插件：这里将默认启用一些重要插件，其他附加插件可以调用函数时传入
-    plugins: [
-      new webpack.DefinePlugin({
-        'process.env': {
-          'BUILD_ENV': JSON.stringify({
-            version: process.env['BRANCH_NAME'],
-            commit: process.env['GIT_COMMIT'],
-            build: process.env['BUILD'],
-          }),
-        }
-      }),
-      // 将CSS提取成独立文件。不使用这个插件时，CSS将被打包到代码里，在运行时释放。
-      new MiniCssExtractPlugin({
-        filename: "[name].[hash].css",
-        chunkFilename: "[name].[hash].css"
-      }),
-      // 静态文件复制插件 (似乎有问题，有需要再解决）
-      new CopyWebpackPlugin({
-        patterns: [
-          { from: ROOT.SRC.STATIC, to: 'static' },
-        ]
-      }),
-      // 打包优化插件
-      new HardSourceWebpackPlugin(),
-      ...(plugins)
-    ],
+    plugins: pluginsList,
   };
 };

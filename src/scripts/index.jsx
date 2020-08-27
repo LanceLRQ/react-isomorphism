@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { IndexApp } from './app';
 
 export const Startup = () => {
-  ReactDOM.render(
+  ReactDOM.hydrate(
     <IndexApp />,
     document.getElementById('root')
   );

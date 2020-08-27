@@ -20,7 +20,7 @@
     <% } %>
 </head>
 <body>
-<div id="root"></div>
+<div id="root"><!-- SSR:root --></div>
 <% for (var key in htmlWebpackPlugin.files.js) { %>
 <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[key] %>"></script>
 <% } %>

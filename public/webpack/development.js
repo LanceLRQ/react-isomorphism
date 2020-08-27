@@ -4,7 +4,7 @@ import { buildWebpackBaseConfig } from './common';
 import { buildLodaers } from './loader';
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
-import { ROOT } from './paths';
+import { ROOT } from '../paths';
 import { buildWebpackDevServer } from './dev_server';
 import { WebsiteBaseInfo } from './constant';
 
@@ -32,7 +32,14 @@ export const buildDevelopmentWebpackConfiguration = (morePlugins = []) => {
     ...morePlugins,
   ];
   return merge(
-    buildWebpackBaseConfig([], plugins, {}, true),
+    buildWebpackBaseConfig([{
+      name: 'index',
+      path: './src/index.js',
+      plugin: [
+        'react-hot-loader/patch',
+        '@babel/polyfill',
+      ],
+    }], plugins, {}, true),
     buildLodaers(),
     buildWebpackDevServer('0.0.0.0', 3000),
     {
