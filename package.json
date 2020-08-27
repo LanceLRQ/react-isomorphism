@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node --max_old_space_size=3072 node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base dist --config webpack.config.dev.babel.js",
     "build:web": "node --max-old-space-size=3072 node_modules/webpack/bin/webpack.js --mode production --progress --profile --colors --config webpack.config.prod.babel.js",
-    "build:server": "node --max-old-space-size=3072 node_modules/webpack/bin/webpack.js --mode production --progress --profile --colors --config webpack.config.server.babel.js",
+    "build:server": "node --max-old-space-size=3072 node_modules/webpack/bin/webpack.js --watch --mode production --progress --profile --colors --config webpack.config.server.babel.js",
     "serve": "babel-node dist/server/index.js",
     "eslint": "eslint src/scripts/**",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -70,6 +70,7 @@
     "html-webpack-plugin": "^4.3.0",
     "less-loader": "^6.2.0",
     "mini-css-extract-plugin": "^0.10.0",
+    "optimist": "^0.6.1",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "react-hot-loader": "^4.12.21",

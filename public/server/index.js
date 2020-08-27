@@ -1,20 +1,29 @@
 import Koa from 'koa';
 import path from 'path';
 import KoaStatic from 'koa-static';
-import { Startup } from '@/scripts/server.jsx';
 import { Template } from './util';
 import { ROOT } from '../paths';
+import { Startup } from '../../src/scripts/server.jsx';
 
 const app = new Koa();
-const htmlBody = new Template(path.join(process.cwd(), 'dist/build/index.html'));
 
 app.use(async (ctx, next) => {
-  const { path, url } = ctx;
+  const { url } = ctx;
 
-  if (url.indexOf('.') > -1) {  // 加个简单处理
+  if (
+    url.endsWith('.js') ||
+    url.endsWith('.css') ||
+    url.endsWith('.ico') ||
+    ctx.path.startsWith('/static')
+  ) {  // 处理静态文件
     await next();
     return;
   }
+
+  if (url.endsWith('.map') > -1) { return } // map文件要404
+  console.log("AAA");
+
+  const htmlBody = new Template(path.join(process.cwd(), 'dist/build/index.html'));
   ctx.body = htmlBody.render({
     root: Startup()
   });

@@ -1,4 +1,6 @@
+import fs from 'fs';
 import os from 'os';
+import path from 'path';
 import HappyPack from 'happypack';
 
 /**
@@ -68,3 +70,20 @@ export function WebpackLoaderBuilder () {
   };
   this.getHappyPackLoaderName = (symbol) => `happypack/loader?id=${happyPackLoaderSymbolMapping[symbol]}`;
 }
+
+
+export const deleteFolderTree = (path) => {
+  let files = [];
+  if (fs.existsSync(path)) {
+    files = fs.readdirSync(path);
+    files.forEach(function (file, index) {
+      let curPath = path + '/' + file;
+      if (fs.statSync(curPath).isDirectory()) {
+        deleteFolderTree(curPath);
+      } else {
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+};
