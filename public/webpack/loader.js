@@ -107,6 +107,7 @@ export const buildLodaers = (dev = true, ssr = false) => {
       loader: MiniCssExtractPlugin.loader,
       options: {
         hmr: dev, // 仅dev环境启用HMR功能
+        reloadAll: true,
       },
     },
     'css-loader',

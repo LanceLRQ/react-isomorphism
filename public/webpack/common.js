@@ -37,8 +37,9 @@ export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true
     pluginsList = pluginsList.concat([
       // 将CSS提取成独立文件。不使用这个插件时，CSS将被打包到代码里，在运行时释放。
       new MiniCssExtractPlugin({
-        filename: "[name].[hash].css",
-        chunkFilename: "[name].[hash].css"
+        filename: dev ? '[name].css' : '[name].[hash].css',
+        chunkFilename: dev ? '[name].css' : '[name].[hash].css',
+        ignoreOrder: dev
       }),
       // 静态文件复制插件 (似乎有问题，有需要再解决）
       new CopyWebpackPlugin({

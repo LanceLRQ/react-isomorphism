@@ -28,6 +28,9 @@ export const buildDevelopmentWebpackConfiguration = (morePlugins = []) => {
       inject: false,                    // 不自动注入文件，需要在模板里设定对应输出
       template: ROOT.DIST.INDEX_HTML,
       website: WebsiteBaseInfo,
+      minify: {                         // 压缩HTML文件
+        removeComments: true,          // 移除HTML中的注释
+      }
     }),
     ...morePlugins,
   ];
@@ -39,8 +42,8 @@ export const buildDevelopmentWebpackConfiguration = (morePlugins = []) => {
         'react-hot-loader/patch',
         '@babel/polyfill',
       ],
-    }], plugins, {}, true),
-    buildLodaers(),
+    }], plugins, {}, true, false),
+    buildLodaers(true, false),
     buildWebpackDevServer('0.0.0.0', 3000),
     {
       // 用eval-source-map时，启动时慢一些，热更新时很快，浏览器里可以看到原本的代码。（发布到生产时不可以用这个！）

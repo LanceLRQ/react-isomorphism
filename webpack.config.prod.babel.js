@@ -11,4 +11,4 @@ if (argv.clean) {
   deleteFolderTree(ROOT.DIST.BUILD);
 }
 
-module.exports = require('./public/webpack/production.js').buildProductionWebpackConfiguration([]);
+module.exports = require('./public/webpack/production.js').buildProductionWebpackConfiguration([], argv.compress);

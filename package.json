@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node --max_old_space_size=3072 node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base dist --config webpack.config.dev.babel.js",
     "build:web": "node --max-old-space-size=3072 node_modules/webpack/bin/webpack.js --mode production --progress --profile --colors --config webpack.config.prod.babel.js",
-    "build:server": "node --max-old-space-size=3072 node_modules/webpack/bin/webpack.js --watch --mode production --progress --profile --colors --config webpack.config.server.babel.js",
-    "serve": "babel-node dist/server/index.js",
+    "build:server": "node --max-old-space-size=3072 node_modules/webpack/bin/webpack.js --mode production --progress --profile --colors --config webpack.config.server.babel.js",
+    "serve": "nodemon --exec babel-node dist/server/index.js -w dist/server",
+    "serve:auto": "npm run build:web && npm run build:server && npm run serve",
     "eslint": "eslint src/scripts/**",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -70,6 +71,7 @@
     "html-webpack-plugin": "^4.3.0",
     "less-loader": "^6.2.0",
     "mini-css-extract-plugin": "^0.10.0",
+    "nodemon": "^2.0.4",
     "optimist": "^0.6.1",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
@@ -89,11 +91,15 @@
     "webpackbar": "^4.0.0"
   },
   "dependencies": {
+    "classnames": "^2.2.6",
     "koa": "^2.13.0",
     "koa-static": "^5.0.0",
     "lodash": "^4.17.20",
+    "node-watch": "^0.6.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-redux": "^7.2.1"
+    "react-redux": "^7.2.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0"
   }
 }
