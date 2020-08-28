@@ -1,10 +1,14 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
-import { IndexApp } from './app';
+import { Provider } from 'react-redux';
+import { IndexApp } from './views/app';
+import { store } from './store/index';
 
 export const Startup = (path) => renderToString(
-  <StaticRouter location={path}>
-    <IndexApp />
-  </StaticRouter>
+  <Provider store={store}>
+    <StaticRouter location={path}>
+      <IndexApp />
+    </StaticRouter>
+  </Provider>
 );

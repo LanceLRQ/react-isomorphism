@@ -64,7 +64,7 @@ export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true
         '@': ROOT.SRC.SELF,
       },
       // 配置可以省略的后缀：如 import './index.js' 可以写成 './index'
-      extensions: ['.js', '.jsx', '.ts', '.scss', '.less'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.scss', '.less'],
     },
     // 输出文件
     output: ssr ? {
