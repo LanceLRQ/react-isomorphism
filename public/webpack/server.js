@@ -1,11 +1,16 @@
+import webpack from 'webpack';
 import WebpackNodeExternals from 'webpack-node-externals';
 import merge from 'webpack-merge';
 import { buildWebpackBaseConfig } from './common';
 import { buildLodaers } from './loader';
-import {ROOT} from '../paths';
 
 
-export const buildServerWebpackConfiguration = (morePlugins = []) => {
+export const buildServerWebpackConfiguration = (morePlugins = [
+  new webpack.ProvidePlugin({
+    window: ['ssr-window', 'window'],
+    document: ['ssr-window', 'document'],
+  })
+]) => {
   return merge(
     buildWebpackBaseConfig([{
       name: 'index',

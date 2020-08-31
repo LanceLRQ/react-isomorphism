@@ -17,7 +17,11 @@ const enhancers = composeEnhancers(applyMiddleware(sagaMiddleware));
 const initState = {};
 const reducer = require('./reducers').createRootReducer();
 
-export const store = createStore(reducer, initState, enhancers);
+export const store = createStore(
+  reducer,
+  (process.SSR_MODE === 'on') ? (window.__INITIAL_STATE__ || initState) : initState,     // eslint-disable-line
+  enhancers
+);
 
 // 注册Saga (一定要在createStore完以后才能调用)
 sagaMiddleware.run(rootSaga);

@@ -1,7 +1,7 @@
 import { createActions } from 'redux-actions';
 import { put, takeEvery } from 'redux-saga/effects';
 
-export const {
+const {
   setCounter,
   updateCounter,
 } = createActions({
@@ -16,3 +16,7 @@ function* updateCounterSaga({ payload }) {
 export function* rootSaga() {
   yield takeEvery([updateCounter], updateCounterSaga);
 }
+
+export default {
+  updateCounter,
+};

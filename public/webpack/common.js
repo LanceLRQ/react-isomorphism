@@ -25,11 +25,13 @@ export const buildWebpackBaseConfig = (entries, plugins, groups = {}, dev = true
   let pluginsList = [
     new webpack.DefinePlugin({
       'process.env': {
-        'BUILD_ENV': JSON.stringify({
+        BUILD_ENV: JSON.stringify({
           version: process.env['BRANCH_NAME'],
           commit: process.env['GIT_COMMIT'],
           build: process.env['BUILD'],
         }),
+        NODE_ENV: JSON.stringify(dev ? 'development' :'production'),
+        SSR_MODE: JSON.stringify(ssr ? 'on' :'off'),
       }
     }),
   ];
