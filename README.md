@@ -5,11 +5,17 @@ An isomorphism project based on React.
 
 ## Run
 
-`npm install` to Install all dependencies
+`npm install` Install all dependencies
 
-`npm start` to run webpack dev server.
+`npm start` Run webpack dev server. (127.0.0.1:3000)
 
-`npm build` to run webpack build.
+`npm run build:web` Build web codes. (production)
+
+`npm run build:server` Build _Server Side Render_ server codes. 
+
+`npm run serve` Run SSR server  (127.0.0.1:5000)
+
+`npm run serve:auto` Automatically build codes and run SSR server
 
 ## TypeScript
 
